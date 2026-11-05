@@ -41,7 +41,7 @@ main{overflow-x:clip;background:#0C0C0C}
 .nav a:hover{opacity:.7}
 @media (min-width:768px){.nav{padding:32px 40px 0}.nav a{font-size:18px}}
 @media (min-width:1024px){.nav a{font-size:1.4rem}}
-.h-wrap{overflow:hidden}
+.h-wrap{overflow:hidden;position:relative;z-index:15}
 .hero h1{font-family:'Plus Jakarta Sans','Kanit',sans-serif;font-weight:800;text-transform:none;letter-spacing:-.045em;line-height:1;white-space:nowrap;width:100%;text-align:center;font-size:12vw;margin-top:24px}
 @media (min-width:640px){.hero h1{font-size:12.6vw;margin-top:16px}}
 @media (min-width:768px){.hero h1{font-size:13.2vw;margin-top:22px}}
@@ -52,10 +52,10 @@ main{overflow-x:clip;background:#0C0C0C}
 .hero-bottom p{color:#D7E2EA;font-weight:300;text-transform:uppercase;letter-spacing:.03em;line-height:1.4;font-size:clamp(.7rem,1.05vw,1.1rem);max-width:190px}
 @media (min-width:640px){.hero-bottom p{max-width:300px}}
 @media (min-width:768px){.hero-bottom p{max-width:380px}}
-.portrait{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;width:280px}
-@media (min-width:640px){.portrait{top:auto;bottom:0;transform:translateX(-50%);width:360px}}
-@media (min-width:768px){.portrait{width:440px}}
-@media (min-width:1024px){.portrait{width:520px}}
+.portrait{position:absolute;left:50%;top:auto;bottom:max(9vh,90px);transform:translateX(-50%);z-index:10;width:250px}
+@media (min-width:640px){.portrait{bottom:0;width:300px}}
+@media (min-width:768px){.portrait{width:min(360px,24vw,42vh)}}
+@media (min-width:1024px){.portrait{left:58%}}
 .magnet{will-change:transform;position:relative;aspect-ratio:1/1.05}
 .magnet canvas,.magnet .fallback{position:absolute;inset:0;width:100%;height:100%}
 .magnet canvas{opacity:0;transition:opacity 1s}
@@ -333,6 +333,13 @@ const hh = $('#hh');
 function fit(){ hh.style.fontSize = ''; const h1 = hh.parentNode; const cs = parseFloat(getComputedStyle(h1).fontSize);
   const avail = h1.parentNode.clientWidth * 0.96, w = hh.offsetWidth; if (w > avail) hh.style.fontSize = (cs * avail / w) + 'px'; }
 hh.style.display = 'inline-block'; fit(); addEventListener('resize', fit); document.fonts && document.fonts.ready.then(fit);
+/* el 3D usa solo el espacio libre debajo del título */
+const portrait = $('.portrait');
+function place(){ portrait.style.width = ''; const hero = $('#top').getBoundingClientRect(), t = hh.getBoundingClientRect(), m = $('#magnet').getBoundingClientRect();
+  const bottomGap = hero.bottom - m.bottom; const avail = hero.bottom - t.bottom - 24 - bottomGap;
+  if (m.height > avail) portrait.style.width = Math.max(140, avail / 1.05) + 'px';
+  dispatchEvent(new Event('portraitsize')); }
+place(); addEventListener('resize', () => requestAnimationFrame(place)); document.fonts && document.fonts.ready.then(place);
 
 /* muestra: flujo automático */
 (function(){
@@ -431,7 +438,7 @@ addEventListener('scroll', onScroll, { passive:true }); addEventListener('resize
 const mag = $('#magnet'); let active = false;
 addEventListener('pointermove', e => { const r = mag.getBoundingClientRect(), pad = 150;
   const inside = e.clientX > r.left - pad && e.clientX < r.right + pad && e.clientY > r.top - pad && e.clientY < r.bottom + pad;
-  if (inside){ const dx = (e.clientX - (r.left + r.width/2))/3, dy = (e.clientY - (r.top + r.height/2))/3;
+  if (inside){ const dx = (e.clientX - (r.left + r.width/2))/5, dy = Math.max(-8, (e.clientY - (r.top + r.height/2))/5);
     mag.style.transition = 'transform 0.3s ease-out'; mag.style.transform = `translate3d(${dx}px,${dy}px,0)`; active = true; }
   else if (active){ mag.style.transition = 'transform 0.6s ease-in-out'; mag.style.transform = 'translate3d(0,0,0)'; active = false; } }, { passive:true });
 /* agenda */
@@ -509,7 +516,7 @@ const BUILD = {
 };
 const b = BUILD.burbuja(); const holder = new THREE.Group(); holder.add(b.obj); holder.scale.setScalar(2.1); scene.add(holder);
 function size(){ const r = mag.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
-addEventListener('resize', size); size();
+addEventListener('resize', size); addEventListener('portraitsize', size); size();
 let mx = 0, my = 0, sx = 0, sy = 0;
 addEventListener('pointermove', e => { mx = e.clientX/innerWidth*2 - 1; my = -(e.clientY/innerHeight*2 - 1); }, { passive:true });
 const clock = new THREE.Clock();
