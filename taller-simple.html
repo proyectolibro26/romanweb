@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>Taller Los Pinos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Taller mecánico: gris acero azulado y naranja de seguridad; titular condensado tipo cartel de ruta, lista de trabajos con precios de referencia. */
+:root{--bg:#F2F4F6;--fg:#1B2530;--muted:#5B6773;--accent:#E8590C;--on-accent:#FFFFFF;--line:#D3D9DF;--chip:#E4E8EC;--card:#FFFFFF;--shadow:rgba(27,37,48,.22);--r:4px;--display:'Barlow Condensed','Arial Narrow',sans-serif;--body:'Barlow',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141A21;--fg:#E8EDF2;--muted:#9AA7B3;--accent:#FF7A2E;--on-accent:#141A21;--line:#2C3743;--chip:#222B35;--card:#1B232C;--shadow:rgba(0,0,0,.5);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141A21;--fg:#E8EDF2;--muted:#9AA7B3;--accent:#FF7A2E;--on-accent:#141A21;--line:#2C3743;--chip:#222B35;--card:#1B232C;--shadow:rgba(0,0,0,.5);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+.demo-bar{background:var(--fg);color:var(--bg);font-size:13px;text-align:center;padding-block:7px}
+.demo-bar a{font-weight:600}
+header.hero{padding-block:56px 48px}
+.hero h1{font-family:var(--display);font-size:clamp(40px,8vw,76px);line-height:.98;margin:0 0 18px;text-wrap:balance;letter-spacing:-.01em}
+.hero p.lead{font-size:clamp(18px,2.4vw,21px);max-width:34ch;margin:0 0 28px;color:var(--muted)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:600 16px/1 var(--body);padding:15px 22px;border-radius:var(--r);text-decoration:none}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--fg)}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section{padding-block:44px;border-top:1px solid var(--line)}
+h2{font-family:var(--display);font-size:clamp(28px,4vw,38px);margin:0 0 22px;line-height:1.05}
+.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 40px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-block:14px;border-bottom:1px dashed var(--line)}
+.row span:first-child{min-width:0}
+.row small{display:block;color:var(--muted);font-size:14px}
+.price{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+.info h3{font-size:15px;margin:0 0 6px;color:var(--muted);font-weight:600}
+.info p{margin:0}
+.hours{font-variant-numeric:tabular-nums}
+footer{padding-block:28px 110px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+.asks{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.asks button{font:500 14px var(--body);background:var(--chip);color:var(--fg);border:0;border-radius:999px;padding:9px 14px;cursor:pointer}
+/* chat */
+#chat-fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;background:var(--accent);color:var(--on-accent);border:0;border-radius:999px;padding:14px 20px;font:700 15px var(--body);cursor:pointer;box-shadow:0 8px 24px var(--shadow)}
+#chat-panel{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:20;width:min(370px,calc(100vw - 36px));height:min(480px,calc(100vh - 140px));background:var(--card);color:var(--fg);border-radius:18px;box-shadow:0 18px 50px var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+#chat-panel[hidden]{display:none!important}
+.chat-head{background:var(--fg);color:var(--bg);padding:14px 16px;font-weight:700;font-size:15px}
+.chat-head small{display:block;font-weight:400;opacity:.75;font-size:12px}
+#chat-log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:85%;padding:9px 12px;border-radius:14px;font-size:15px;line-height:1.4;white-space:pre-line}
+.msg.bot{background:var(--chip);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);color:var(--on-accent);align-self:flex-end;border-bottom-right-radius:4px}
+.msg.typing{opacity:.6;font-style:italic}
+#chat-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+#chat-input{flex:1;min-width:0;font:15px var(--body);padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+#chat-form button{border:0;background:var(--accent);color:var(--on-accent);font:700 14px var(--body);padding:0 14px;border-radius:10px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.hero h1{text-transform:uppercase;letter-spacing:.01em}.kicker{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:700;padding:4px 10px;margin-bottom:14px;font-size:14px}
+</style>
+<div class="demo-bar"><div class="wrap">Sitio de ejemplo hecho por Roman Web. ¿Querés uno así para tu negocio? WhatsApp 341 260-9941</div></div>
+<header class="hero"><div class="wrap">
+  <div class="kicker">Mecánica general · Zona sur</div>
+  <h1>Tu auto listo<br>en el día.</h1>
+  <p class="lead">Service, frenos, tren delantero y diagnóstico por computadora. Presupuesto sin cargo por WhatsApp.</p>
+  <div class="ctas">
+    <a class="btn primary" href="https://wa.me/5493412609941" target="_blank" rel="noopener">Pedir presupuesto</a>
+    <button class="btn ghost" type="button" data-open-chat>Preguntale al asistente</button>
+  </div>
+  <div class="asks" aria-label="Preguntas frecuentes"><button type="button" data-q="¿Cuánto sale un service?">¿Cuánto sale un service?</button><button type="button" data-q="¿Hacen diagnóstico por scanner?">¿Hacen diagnóstico por scanner?</button><button type="button" data-q="¿Atienden los sábados?">¿Atienden los sábados?</button></div>
+</div></header>
+<section><div class="wrap"><h2>Trabajos y precios de referencia</h2><div class="list"><div class="row"><span>Service completo<small>Aceite, filtros y revisión de 20 puntos</small></span><span class="price">desde $85.000</span></div><div class="row"><span>Cambio de pastillas de freno<small>Mano de obra por eje</small></span><span class="price">$35.000</span></div><div class="row"><span>Diagnóstico por scanner<small>Lectura de fallas</small></span><span class="price">$25.000</span></div><div class="row"><span>Alineación y balanceo<small>4 ruedas</small></span><span class="price">$30.000</span></div><div class="row"><span>Cambio de correa de distribución<small>Según modelo</small></span><span class="price">a cotizar</span></div><div class="row"><span>Revisión pre-VTV<small>Te decimos qué arreglar antes</small></span><span class="price">$15.000</span></div></div>
+<p style="color:var(--muted);font-size:14px;margin-top:16px">Precios de mano de obra orientativos; los repuestos se cotizan según el modelo.</p></div></section>
+<section><div class="wrap info">
+  <div><h3>Horarios</h3><p class="hours">Lunes a viernes 8 a 17 hs<br>Sábados 8 a 12 hs</p></div>
+  <div><h3>Dónde estamos</h3><p>Calle Uriburu 2400 (ficticio)<br>Rosario, Santa Fe</p></div>
+  <div><h3>Contacto</h3><p>WhatsApp 341 260-9941<br>@tallerlospinos</p></div>
+</div></section>
+<footer><div class="wrap">Taller Los Pinos es un negocio ficticio. Página de ejemplo con asistente automático, hecha por Roman Web.</div></footer>
+<button id="chat-fab" type="button" aria-controls="chat-panel" aria-expanded="false">💬 Consultas 24 hs</button>
+<div id="chat-panel" hidden role="dialog" aria-label="Asistente">
+  <div class="chat-head">Asistente de Taller Los Pinos<small>Responde al instante, todos los días</small></div>
+  <div id="chat-log" aria-live="polite"></div>
+  <form id="chat-form"><input id="chat-input" placeholder="Escribí tu pregunta…" autocomplete="off" aria-label="Tu pregunta"><button type="submit">Enviar</button></form>
+</div>
+<script>
+(function(){
+  const KB = {"hello": "¡Hola! Soy el asistente del Taller Los Pinos 🔧 Contame qué le pasa al auto o preguntame precios y horarios.", "fallback": "Esa no la sé todavía 🙂 Te paso con una persona: escribinos por WhatsApp al 341 260-9941 y te responden en el día.", "items": [{"k": ["service", "aceite", "filtro"], "a": "El service completo arranca en $85.000 (aceite, filtros y revisión de 20 puntos). El precio final depende del aceite que lleve tu auto. ¿Qué modelo tenés?"}, {"k": ["freno", "pastilla", "frena", "chilla"], "a": "Cambio de pastillas: $35.000 de mano de obra por eje, más las pastillas según modelo. Si chilla o frena largo, conviene revisarlo cuanto antes."}, {"k": ["scanner", "diagnostic", "testigo", "check", "luz"], "a": "Sí, hacemos diagnóstico por scanner: $25.000. Si después hacés el arreglo con nosotros, te lo descontamos."}, {"k": ["alinea", "balanc", "tira", "vibra"], "a": "Alineación y balanceo de las 4 ruedas: $30.000."}, {"k": ["vtv"], "a": "Revisión pre-VTV: $15.000. Te decimos qué tenés que arreglar antes de ir."}, {"k": ["horario", "abren", "sabado", "hora", "cierran"], "a": "Lunes a viernes de 8 a 17 hs y sábados de 8 a 12 hs."}, {"k": ["turno", "llevar", "dejar", "cuando"], "a": "Para dejar el auto escribinos al 341 260-9941 y te damos turno. La mayoría de los trabajos salen en el día."}, {"k": ["precio", "cuanto", "sale", "cuesta", "presupuesto"], "a": "Service desde $85.000, frenos $35.000 por eje, scanner $25.000, alineación y balanceo $30.000. El presupuesto exacto es sin cargo por WhatsApp."}, {"k": ["donde", "direccion", "queda", "ubicacion"], "a": "Estamos en Uriburu 2400, zona sur de Rosario."}]};
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const log = document.getElementById('chat-log');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const panel = document.getElementById('chat-panel');
+  const fab = document.getElementById('chat-fab');
+  function add(text, who){
+    const b = document.createElement('div');
+    b.className = 'msg ' + who; b.textContent = text; log.appendChild(b);
+    log.scrollTop = log.scrollHeight;
+  }
+  function reply(q){
+    const n = norm(q); let best = null, score = 0;
+    KB.items.forEach(it => {
+      const s = it.k.filter(k => n.includes(k)).length;
+      if (s > score){ score = s; best = it; }
+    });
+    const t = document.createElement('div'); t.className='msg bot typing'; t.textContent='Escribiendo…';
+    log.appendChild(t); log.scrollTop = log.scrollHeight;
+    setTimeout(()=>{ t.remove(); add(best ? best.a : KB.fallback, 'bot'); }, 650);
+  }
+  function ask(q){ add(q,'me'); reply(q); }
+  form.addEventListener('submit', e => { e.preventDefault(); const q = input.value.trim(); if(!q) return; input.value=''; ask(q); });
+  document.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', () => { open(); ask(b.dataset.q); }));
+  function open(){ panel.hidden = false; fab.setAttribute('aria-expanded','true'); setTimeout(()=>input.focus(),50); }
+  fab.addEventListener('click', () => { if(panel.hidden) open(); else { panel.hidden = true; fab.setAttribute('aria-expanded','false'); } });
+  document.querySelectorAll('[data-open-chat]').forEach(b => b.addEventListener('click', open));
+  add(KB.hello, 'bot');
+})();
+</script>
+
+</body>
+</html>

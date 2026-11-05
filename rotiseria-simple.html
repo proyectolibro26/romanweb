@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>Rotisería Doña Rosa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+/* Rotisería de barrio: blanco con verde albahaca y rojo tomate; titular serif cálido, menú del día como carta. */
+:root{--bg:#FBFCF8;--fg:#1F2A1C;--muted:#5D6A58;--accent:#C2361B;--on-accent:#FFFFFF;--line:#DCE3D3;--chip:#ECF1E4;--card:#FFFFFF;--shadow:rgba(31,42,28,.2);--r:999px;--display:'Alegreya',Georgia,serif;--body:'Nunito Sans',system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151A13;--fg:#EEF2E8;--muted:#A9B5A2;--accent:#F06A4B;--on-accent:#151A13;--line:#2D3829;--chip:#222B1F;--card:#1C2319;--shadow:rgba(0,0,0,.5);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151A13;--fg:#EEF2E8;--muted:#A9B5A2;--accent:#F06A4B;--on-accent:#151A13;--line:#2D3829;--chip:#222B1F;--card:#1C2319;--shadow:rgba(0,0,0,.5);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+.demo-bar{background:var(--fg);color:var(--bg);font-size:13px;text-align:center;padding-block:7px}
+.demo-bar a{font-weight:600}
+header.hero{padding-block:56px 48px}
+.hero h1{font-family:var(--display);font-size:clamp(40px,8vw,76px);line-height:.98;margin:0 0 18px;text-wrap:balance;letter-spacing:-.01em}
+.hero p.lead{font-size:clamp(18px,2.4vw,21px);max-width:34ch;margin:0 0 28px;color:var(--muted)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:600 16px/1 var(--body);padding:15px 22px;border-radius:var(--r);text-decoration:none}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--fg)}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section{padding-block:44px;border-top:1px solid var(--line)}
+h2{font-family:var(--display);font-size:clamp(28px,4vw,38px);margin:0 0 22px;line-height:1.05}
+.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 40px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-block:14px;border-bottom:1px dashed var(--line)}
+.row span:first-child{min-width:0}
+.row small{display:block;color:var(--muted);font-size:14px}
+.price{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+.info h3{font-size:15px;margin:0 0 6px;color:var(--muted);font-weight:600}
+.info p{margin:0}
+.hours{font-variant-numeric:tabular-nums}
+footer{padding-block:28px 110px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+.asks{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.asks button{font:500 14px var(--body);background:var(--chip);color:var(--fg);border:0;border-radius:999px;padding:9px 14px;cursor:pointer}
+/* chat */
+#chat-fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;background:var(--accent);color:var(--on-accent);border:0;border-radius:999px;padding:14px 20px;font:700 15px var(--body);cursor:pointer;box-shadow:0 8px 24px var(--shadow)}
+#chat-panel{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:20;width:min(370px,calc(100vw - 36px));height:min(480px,calc(100vh - 140px));background:var(--card);color:var(--fg);border-radius:18px;box-shadow:0 18px 50px var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+#chat-panel[hidden]{display:none!important}
+.chat-head{background:var(--fg);color:var(--bg);padding:14px 16px;font-weight:700;font-size:15px}
+.chat-head small{display:block;font-weight:400;opacity:.75;font-size:12px}
+#chat-log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:85%;padding:9px 12px;border-radius:14px;font-size:15px;line-height:1.4;white-space:pre-line}
+.msg.bot{background:var(--chip);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);color:var(--on-accent);align-self:flex-end;border-bottom-right-radius:4px}
+.msg.typing{opacity:.6;font-style:italic}
+#chat-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+#chat-input{flex:1;min-width:0;font:15px var(--body);padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+#chat-form button{border:0;background:var(--accent);color:var(--on-accent);font:700 14px var(--body);padding:0 14px;border-radius:10px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.kicker{color:#4F7A3A;font-weight:700;margin-bottom:8px}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kicker{color:#9CCB7F}}:root[data-theme="dark"] .kicker{color:#9CCB7F}
+</style>
+<div class="demo-bar"><div class="wrap">Sitio de ejemplo hecho por Roman Web. ¿Querés uno así para tu negocio? WhatsApp 341 260-9941</div></div>
+<header class="hero"><div class="wrap">
+  <div class="kicker">Comida casera para llevar y delivery</div>
+  <h1>Hoy hay milanesas<br>con puré.</h1>
+  <p class="lead">Pedí por WhatsApp antes de las 12 y lo tenés para el almuerzo. El asistente te dice el menú del día y si llegamos a tu barrio.</p>
+  <div class="ctas">
+    <a class="btn primary" href="https://wa.me/5493412609941" target="_blank" rel="noopener">Hacer pedido por WhatsApp</a>
+    <button class="btn ghost" type="button" data-open-chat>Preguntale al asistente</button>
+  </div>
+  <div class="asks" aria-label="Preguntas frecuentes"><button type="button" data-q="¿Qué hay hoy?">¿Qué hay hoy?</button><button type="button" data-q="¿Hacen delivery a Echesortu?">¿Hacen delivery a Echesortu?</button><button type="button" data-q="¿Cuánto sale la docena de empanadas?">¿Cuánto sale la docena de empanadas?</button></div>
+</div></header>
+<section><div class="wrap"><h2>Menú y precios</h2><div class="list"><div class="row"><span>Milanesa con puré o papas<small>Carne o pollo</small></span><span class="price">$9.500</span></div><div class="row"><span>Pollo al spiedo<small>Entero, con papas</small></span><span class="price">$16.000</span></div><div class="row"><span>Tarta de verdura<small>Porción grande</small></span><span class="price">$5.500</span></div><div class="row"><span>Empanadas<small>Carne, pollo, jamón y queso · docena</small></span><span class="price">$18.000</span></div><div class="row"><span>Tallarines con salsa<small>Bolognesa o fileto</small></span><span class="price">$8.000</span></div><div class="row"><span>Flan casero<small>Con dulce de leche</small></span><span class="price">$3.500</span></div></div>
+<p style="color:var(--muted);font-size:14px;margin-top:16px">Delivery en Echesortu, Centro y Abasto. Envío $2.000.</p></div></section>
+<section><div class="wrap info">
+  <div><h3>Horarios</h3><p class="hours">Todos los días 11 a 15 hs<br>Jueves a domingo también 19:30 a 23 hs</p></div>
+  <div><h3>Dónde estamos</h3><p>Mendoza 3100 (ficticio)<br>Rosario, Santa Fe</p></div>
+  <div><h3>Contacto</h3><p>WhatsApp 341 260-9941<br>@donarosarotiseria</p></div>
+</div></section>
+<footer><div class="wrap">Rotisería Doña Rosa es un negocio ficticio. Página de ejemplo con asistente automático, hecha por Roman Web.</div></footer>
+<button id="chat-fab" type="button" aria-controls="chat-panel" aria-expanded="false">💬 Consultas 24 hs</button>
+<div id="chat-panel" hidden role="dialog" aria-label="Asistente">
+  <div class="chat-head">Asistente de Doña Rosa<small>Responde al instante, todos los días</small></div>
+  <div id="chat-log" aria-live="polite"></div>
+  <form id="chat-form"><input id="chat-input" placeholder="Escribí tu pregunta…" autocomplete="off" aria-label="Tu pregunta"><button type="submit">Enviar</button></form>
+</div>
+<script>
+(function(){
+  const KB = {"hello": "¡Hola! Soy el asistente de Rotisería Doña Rosa 🍗 Preguntame el menú, precios o si llegamos a tu barrio.", "fallback": "Esa no la sé todavía 🙂 Te paso con una persona: escribinos por WhatsApp al 341 260-9941 y te responden en el día.", "items": [{"k": ["hoy", "menu", "dia", "que hay", "comida"], "a": "Hoy: milanesas con puré ($9.500), pollo al spiedo ($16.000), tarta de verdura ($5.500) y tallarines ($8.000). ¿Te armo el pedido?"}, {"k": ["empanada", "docena"], "a": "La docena de empanadas sale $18.000 (carne, pollo o jamón y queso, podés combinar)."}, {"k": ["delivery", "envio", "llevan", "barrio", "echesortu", "centro", "abasto"], "a": "Hacemos delivery en Echesortu, Centro y Abasto. El envío cuesta $2.000. Pedí antes de las 12 para el almuerzo."}, {"k": ["pollo", "spiedo"], "a": "Pollo al spiedo entero con papas: $16.000."}, {"k": ["milanesa", "mila"], "a": "Milanesa de carne o pollo con puré o papas: $9.500."}, {"k": ["horario", "abren", "noche", "cena", "hora", "cierran"], "a": "Todos los días de 11 a 15 hs. De jueves a domingo también a la noche, de 19:30 a 23 hs."}, {"k": ["pago", "mercado", "transfer", "efectivo"], "a": "Podés pagar en efectivo, transferencia o Mercado Pago."}, {"k": ["pedido", "pedir", "encargar", "quiero"], "a": "Mandanos tu pedido por WhatsApp al 341 260-9941 con tu dirección y te confirmamos el horario de entrega."}, {"k": ["precio", "cuanto", "sale", "cuesta"], "a": "Milanesa $9.500 · Pollo $16.000 · Tarta $5.500 · Docena de empanadas $18.000 · Tallarines $8.000 · Flan $3.500."}]};
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const log = document.getElementById('chat-log');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const panel = document.getElementById('chat-panel');
+  const fab = document.getElementById('chat-fab');
+  function add(text, who){
+    const b = document.createElement('div');
+    b.className = 'msg ' + who; b.textContent = text; log.appendChild(b);
+    log.scrollTop = log.scrollHeight;
+  }
+  function reply(q){
+    const n = norm(q); let best = null, score = 0;
+    KB.items.forEach(it => {
+      const s = it.k.filter(k => n.includes(k)).length;
+      if (s > score){ score = s; best = it; }
+    });
+    const t = document.createElement('div'); t.className='msg bot typing'; t.textContent='Escribiendo…';
+    log.appendChild(t); log.scrollTop = log.scrollHeight;
+    setTimeout(()=>{ t.remove(); add(best ? best.a : KB.fallback, 'bot'); }, 650);
+  }
+  function ask(q){ add(q,'me'); reply(q); }
+  form.addEventListener('submit', e => { e.preventDefault(); const q = input.value.trim(); if(!q) return; input.value=''; ask(q); });
+  document.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', () => { open(); ask(b.dataset.q); }));
+  function open(){ panel.hidden = false; fab.setAttribute('aria-expanded','true'); setTimeout(()=>input.focus(),50); }
+  fab.addEventListener('click', () => { if(panel.hidden) open(); else { panel.hidden = true; fab.setAttribute('aria-expanded','false'); } });
+  document.querySelectorAll('[data-open-chat]').forEach(b => b.addEventListener('click', open));
+  add(KB.hello, 'bot');
+})();
+</script>
+
+</body>
+</html>
