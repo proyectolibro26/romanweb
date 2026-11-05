@@ -57,6 +57,7 @@ main{overflow-x:clip;background:#0C0C0C}
 @media (min-width:768px){.portrait{width:min(360px,24vw,42vh)}}
 @media (min-width:1024px){.portrait{left:58%}}
 .magnet{will-change:transform;position:relative;aspect-ratio:1/1.05}
+@media (max-width:767px){.magnet{aspect-ratio:auto}.fallback svg{width:80%;max-height:90%}}
 .magnet canvas,.magnet .fallback{position:absolute;inset:0;width:100%;height:100%}
 .magnet canvas{opacity:0;transition:opacity 1s}
 .magnet.ready canvas{opacity:1}
@@ -64,7 +65,8 @@ main{overflow-x:clip;background:#0C0C0C}
 .fallback{transition:opacity .6s;display:grid;place-items:center}
 .fallback svg{width:90%}
 /* marquee */
-.marquee{padding:96px 0 40px;display:grid;gap:12px;overflow:hidden}
+.marquee{padding:96px 0 40px;display:grid;gap:12px;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.marquee img{pointer-events:none;-webkit-user-drag:none}
 @media (min-width:640px){.marquee{padding-top:128px}}
 @media (min-width:768px){.marquee{padding-top:160px}}
 .row{display:flex;gap:12px;will-change:transform;width:max-content}
@@ -335,11 +337,20 @@ function fit(){ hh.style.fontSize = ''; const h1 = hh.parentNode; const cs = par
 hh.style.display = 'inline-block'; fit(); addEventListener('resize', fit); document.fonts && document.fonts.ready.then(fit);
 /* el 3D usa solo el espacio libre debajo del título */
 const portrait = $('.portrait');
-function place(){ portrait.style.width = ''; const hero = $('#top').getBoundingClientRect(), t = hh.getBoundingClientRect(), m = $('#magnet').getBoundingClientRect();
-  const bottomGap = hero.bottom - m.bottom; const avail = hero.bottom - t.bottom - 24 - bottomGap;
-  if (m.height > avail) portrait.style.width = Math.max(140, avail / 1.05) + 'px';
+function place(){
+  const mag = $('#magnet'); portrait.style.cssText = ''; mag.style.height = '';
+  const hero = $('#top').getBoundingClientRect(), t = hh.getBoundingClientRect();
+  if (innerWidth < 768){
+    const bar = $('.hero-bottom').getBoundingClientRect();
+    const top = t.bottom - hero.top + 6, h = Math.max(160, bar.top - t.bottom - 12);
+    portrait.style.cssText = `left:0;right:0;width:auto;top:${top}px;bottom:auto;transform:none;height:${h}px`;
+    mag.style.height = h + 'px';
+  } else {
+    const m = mag.getBoundingClientRect(); const bottomGap = hero.bottom - m.bottom; const avail = hero.bottom - t.bottom - 24 - bottomGap;
+    if (m.height > avail) portrait.style.width = Math.max(140, avail / 1.05) + 'px';
+  }
   dispatchEvent(new Event('portraitsize')); }
-place(); addEventListener('resize', () => requestAnimationFrame(place)); document.fonts && document.fonts.ready.then(place);
+place(); addEventListener('resize', () => requestAnimationFrame(place)); document.fonts && document.fonts.ready.then(place); setTimeout(place, 1500); setTimeout(place, 3000);
 
 /* muestra: flujo automático */
 (function(){
@@ -410,6 +421,20 @@ const imgs = S.marquee.filter(k => I[k]); const half = Math.ceil(imgs.length/2);
 function fill(row, list){ const tri = [...list, ...list, ...list]; row.innerHTML = ''; tri.forEach(k => { const im = new Image(); im.src = I[k]; im.alt = ''; im.loading = 'lazy'; row.appendChild(im); }); }
 fill($('#row1'), imgs.slice(0, half)); fill($('#row2'), imgs.slice(half));
 const mq = $('#marquee'), r1 = $('#row1'), r2 = $('#row2');
+let scrollOff = 0, drag = 0, auto = 0, dragging = false, lastX = 0, vel = 0, lastT = performance.now();
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function marquee(now){
+  const dt = Math.min(50, now - lastT); lastT = now;
+  if (!still && !dragging) auto += dt * 0.035;
+  if (!dragging && Math.abs(vel) > .01){ drag += vel * dt; vel *= .94; }
+  const w1 = r1.scrollWidth / 3, w2 = r2.scrollWidth / 3, x = scrollOff + auto + drag;
+  const m1 = w1 ? -(((x % w1) + w1) % w1) - w1 : 0, m2 = w2 ? -(((-x % w2) + w2) % w2) - w2 : 0;
+  r1.style.transform = `translate3d(${m1}px,0,0)`; r2.style.transform = `translate3d(${m2}px,0,0)`;
+  requestAnimationFrame(marquee); }
+requestAnimationFrame(marquee);
+mq.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; vel = 0; });
+addEventListener('pointermove', e => { if (!dragging) return; const dx = e.clientX - lastX; lastX = e.clientX; drag -= dx; vel = -dx / 16; }, { passive:true });
+['pointerup','pointercancel'].forEach(ev => addEventListener(ev, () => { dragging = false; }));
 /* texto que se ilumina */
 const at = $('#atext'); const txt = at.textContent; at.textContent = '';
 const chars = [...txt].map(c => { const s = document.createElement('span'); s.className = 'ch';
@@ -421,7 +446,7 @@ const cards = $$('.card'), stack = $('#stack');
 function onScroll(){
   const vh = innerHeight, y = scrollY;
   const off = (y - mq.offsetTop + vh) * 0.3;
-  r1.style.transform = `translateX(${off - 200}px)`; r2.style.transform = `translateX(${-(off - 200)}px)`;
+  scrollOff = off;
   const r = at.getBoundingClientRect();
   const start = vh*0.8, end = vh*0.2;
   const prog = Math.min(1, Math.max(0, (start - r.top) / ((start - end) + r.height)));
@@ -436,7 +461,7 @@ function onScroll(){
 addEventListener('scroll', onScroll, { passive:true }); addEventListener('resize', onScroll); onScroll();
 /* magnet */
 const mag = $('#magnet'); let active = false;
-addEventListener('pointermove', e => { const r = mag.getBoundingClientRect(), pad = 150;
+addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; const r = mag.getBoundingClientRect(), pad = 150;
   const inside = e.clientX > r.left - pad && e.clientX < r.right + pad && e.clientY > r.top - pad && e.clientY < r.bottom + pad;
   if (inside){ const dx = (e.clientX - (r.left + r.width/2))/5, dy = Math.max(-8, (e.clientY - (r.top + r.height/2))/5);
     mag.style.transition = 'transform 0.3s ease-out'; mag.style.transform = `translate3d(${dx}px,${dy}px,0)`; active = true; }
@@ -515,14 +540,14 @@ const BUILD = {
  },
 };
 const b = BUILD.burbuja(); const holder = new THREE.Group(); holder.add(b.obj); holder.scale.setScalar(2.1); scene.add(holder);
-function size(){ const r = mag.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
+function size(){ const r = mag.getBoundingClientRect(); if (!r.width || !r.height) return; renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); holder.scale.setScalar(2.1 * Math.min(1, camera.aspect * 1.05)); }
 addEventListener('resize', size); addEventListener('portraitsize', size); size();
 let mx = 0, my = 0, sx = 0, sy = 0;
 addEventListener('pointermove', e => { mx = e.clientX/innerWidth*2 - 1; my = -(e.clientY/innerHeight*2 - 1); }, { passive:true });
 const clock = new THREE.Clock();
 function loop(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime, k = 1 - Math.exp(-dt*3);
   sx += (mx - sx)*k; sy += (my - sy)*k;
-  holder.rotation.set(-.15 - sy*.35 + Math.sin(t*1.3)*.04, -.35 + sx*.6, Math.sin(t*.9)*.05);
+  holder.rotation.set(-.15 - sy*.35 + Math.sin(t*1.3)*.04, -.35 + sx*.6, Math.sin(t*.9)*.05); holder.position.x = -.12 * holder.scale.x / 2.1;
   holder.position.y = Math.sin(t*1.6)*.06;
   b.update(t, 0, dt); renderer.render(scene, camera); requestAnimationFrame(loop); }
 mag.classList.add('ready'); loop();
