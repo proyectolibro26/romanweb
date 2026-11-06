@@ -109,6 +109,15 @@ main{overflow-x:clip;background:#0C0C0C}
 .pts{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .pts li{border:1px solid rgba(12,12,12,.18);border-radius:14px;padding:5px 12px;font-size:clamp(.78rem,1.1vw,.95rem);font-weight:400}
 .sitem .pr{font-weight:600;font-size:clamp(.9rem,1.5vw,1.15rem);color:#7621B0}
+.promo{max-width:1024px;margin:48px auto 8px;background:#0C0C0C;color:#fff;border-radius:28px;padding:clamp(26px,4vw,44px);display:flex;flex-direction:column;align-items:flex-start;gap:14px;position:relative;overflow:hidden;box-shadow:0 20px 50px -20px rgba(118,33,176,.6)}
+.promo::after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(rgba(198,255,61,.28),transparent 70%);pointer-events:none}
+.p-tag{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#0C0C0C;background:#C6FF3D;border-radius:999px;padding:5px 12px;font-weight:600}
+.promo h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(1.7rem,4vw,3rem);line-height:1.05;letter-spacing:-.035em;margin:0}
+.promo h3 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#C6FF3D;letter-spacing:-.01em}
+.promo p{max-width:620px;font-weight:300;line-height:1.5;color:#D7E2EA;margin:0;font-size:clamp(.98rem,1.5vw,1.1rem)}
+.promo p b{color:#fff;font-weight:600}
+.p-btn{margin-top:6px;background:#C6FF3D;color:#0C0C0C;border-radius:999px;padding:13px 28px;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;transition:transform .2s}
+.p-btn:hover{transform:translateY(-2px)}
 .guar{max-width:1024px;margin:56px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:767px){.guar{grid-template-columns:minmax(0,1fr);margin-top:40px}}
 .g-it{border:1.5px solid #0C0C0C;border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:6px}
@@ -392,9 +401,15 @@ footer{padding:40px max(20px,env(safe-area-inset-right,0px)) 48px max(20px,env(s
  </section>
  <section class="services" id="servicios">
    <h2 class="big fade" style="--fy:40px">Servicios</h2>
+   <div class="promo fade" style="--fdel:.1s">
+     <span class="p-tag">Promo de lanzamiento · Solo 5 lugares</span>
+     <h3>Llave en mano.<br><em class="serif">Pagás cuando está terminada</em> y das el OK.</h3>
+     <p>No ponés un peso por adelantado. Te entregamos todo funcionando, lo revisás y recién ahí pagás. Tu web lista en <b>72 horas</b>.</p>
+     <a class="p-btn" href="https://wa.me/5493412609941?text=Hola!%20Quiero%20uno%20de%20los%205%20lugares%20de%20la%20promo%20llave%20en%20mano" target="_blank" rel="noopener">Quiero mi lugar</a>
+   </div>
    <div class="slist"><div class="sitem fade" style="--fdel:0.0s"><span class="n">01</span><div class="b"><h3>Diseño y desarrollo web</h3><p>Páginas, landing pages y tiendas online que se ven bien en el celular, cargan rápido y están pensadas para que te escriban.</p><ul class="pts"><li>Diseño a medida para celular y computadora</li><li>Landing pages enfocadas en conseguir consultas</li><li>Tiendas online con cobro por Mercado Pago</li><li>WhatsApp, formularios y mapa integrados</li><li>Velocidad y SEO básico incluidos</li></ul><span class="pr">Desde $150.000</span></div></div><div class="sitem fade" style="--fdel:0.08s"><span class="n">02</span><div class="b"><h3>Automatizaciones con IA <em class="badge">Más pedido</em></h3><p>Las tareas repetitivas de tu negocio se hacen solas, sin que tengas que estar encima todo el día.</p><ul class="pts"><li>Bots de atención para WhatsApp y tu web</li><li>Presupuestos, recordatorios y cargas de datos automáticas</li><li>Flujos con Make, n8n o Zapier</li><li>Conexión con tu planilla o tu CRM</li><li>Reportes automáticos hechos con IA</li></ul><span class="pr">Desde $200.000</span></div></div><div class="sitem fade" style="--fdel:0.16s"><span class="n">03</span><div class="b"><h3>Posicionamiento en Google</h3><p>Que los clientes te encuentren cuando buscan lo que vendés, sin pagar publicidad.</p><ul class="pts"><li>Búsqueda de las palabras que usa tu cliente</li><li>Textos y estructura optimizados</li><li>SEO técnico: velocidad, mapa del sitio y datos estructurados</li><li>Perfil de Empresa en Google Maps</li><li>Informe mensual de resultados</li></ul><span class="pr">Desde $60.000/mes</span></div></div><div class="sitem fade" style="--fdel:0.24s"><span class="n">04</span><div class="b"><h3>Agentes de IA 24 horas <em class="badge">24 hs</em></h3><p>Un asistente que responde, agenda turnos y vende mientras vos descansás.</p><ul class="pts"><li>Bot en tu WhatsApp</li><li>Chat en tu página web</li><li>Turnos que se agendan solos en tu calendario</li><li>Detecta qué clientes están listos para comprar</li></ul><span class="pr">Desde $350.000 + $40.000/mes</span></div></div><div class="sitem fade" style="--fdel:0.32s"><span class="n">05</span><div class="b"><h3>Pedidos y turnos online</h3><p>Carrito, reservas y turnos que te llegan armados por WhatsApp, con seguimiento para que el cliente sepa en qué está su pedido.</p><ul class="pts"><li>Menú o catálogo con carrito</li><li>Envío, retiro y forma de pago</li><li>Seguimiento del pedido en vivo</li></ul><span class="pr">Desde $450.000</span></div></div><div class="sitem fade" style="--fdel:0.4s"><span class="n">06</span><div class="b"><h3>Tienda de dropshipping <em class="badge">Nuevo</em></h3><p>Vendé sin stock: conectamos tu tienda propia o tu Mercado Libre al catálogo de Unistore y dejamos todo automatizado.</p><ul class="pts"><li>Integración con Mercado Libre y Tienda Nube</li><li>Tu propia tienda conectada al depósito</li><li>Stock y precios sincronizados solos</li><li>Envíos a todo el país a tu nombre</li></ul><span class="pr">Desde $250.000</span></div></div><div class="sitem fade" style="--fdel:0.48s"><span class="n">07</span><div class="b"><h3>Mantenimiento</h3><p>Tu página siempre al día, sin que tengas que tocar nada.</p><ul class="pts"><li>Cambios de precios, fotos y textos</li><li>Copias de seguridad</li><li>Soporte por WhatsApp</li></ul><span class="pr">$25.000/mes</span></div></div></div>
    <div class="guar fade">
-     <div class="g-it"><b>50% / 50%</b><span>Pagás la mitad para arrancar y la otra mitad cuando la web está lista.</span></div>
+     <div class="g-it"><b>Pagás al final</b><span>Recién cuando está terminada, la probás y das el OK.</span></div>
      <div class="g-it"><b>Garantía de diseño</b><span>Si no te gusta la primera propuesta, la rehacemos sin costo.</span></div>
      <div class="g-it"><b>Todo a tu nombre</b><span>El dominio y las cuentas quedan a tu nombre. Es tuyo.</span></div>
    </div>
@@ -403,8 +418,8 @@ footer{padding:40px max(20px,env(safe-area-inset-right,0px)) 48px max(20px,env(s
  <section class="faq" id="preguntas">
    <h2 class="big hero-heading fade" style="--fy:40px">Preguntas</h2>
    <div class="qlist">
-     <details><summary>¿Cuánto tarda?</summary><p>Una página web simple, entre 5 y 7 días. Una tienda online, un bot o una automatización, entre 10 y 15 días. Antes de empezar te paso la fecha de entrega.</p></details>
-     <details><summary>¿Tengo que pagar todo junto?</summary><p>No. Pagás 50% para arrancar y 50% cuando está lista y te gusta. Podés pagar por transferencia o Mercado Pago.</p></details>
+     <details><summary>¿Cuánto tarda?</summary><p>Una página web simple, en 72 horas. Una tienda online, un bot o una automatización, entre 5 y 7 días. Antes de empezar te paso la fecha de entrega.</p></details>
+     <details><summary>¿Tengo que pagar algo por adelantado?</summary><p>No. Con la promo de lanzamiento no pagás nada antes. Te entregamos todo funcionando, lo revisás y cuando das el OK pagás, por transferencia o Mercado Pago.</p></details>
      <details><summary>¿El dominio y el hosting están incluidos?</summary><p>El hosting está incluido, sin costo mensual. El dominio .com.ar se paga aparte (unos $15.000 al año) y se registra a tu nombre.</p></details>
      <details><summary>¿Puedo editarla yo?</summary><p>Sí. Te enseño a cambiar precios, fotos y textos. Si preferís no tocar nada, con el mantenimiento mensual lo hacemos nosotros.</p></details>
      <details><summary>¿Y si no me gusta el diseño?</summary><p>Lo rehacemos sin costo. La idea es que quede como vos lo imaginás.</p></details>
