@@ -252,7 +252,9 @@ main{overflow-x:clip;background:#0C0C0C}
 @media (min-width:768px){.projects{border-radius:60px 60px 0 0;margin-top:-56px;padding:120px 40px 60px}}
 .projects .big{margin-bottom:48px}
 .stack{max-width:1200px;margin:0 auto}
-.slot{height:85vh;position:relative}
+.slot{height:auto;position:relative;margin-bottom:28px}
+.stack .card{position:relative!important;top:auto!important;transform:none!important}
+@media (max-width:767px){.slot{margin-bottom:18px}.ctop{row-gap:12px}.ctop .ghost{flex-basis:100%;text-align:center}}
 .card{position:sticky;top:96px;border-radius:40px;border:2px solid #D7E2EA;background:#0C0C0C;padding:16px;transform-origin:top center;will-change:transform;display:grid;gap:16px}
 @media (min-width:640px){.card{border-radius:50px;padding:24px}}
 @media (min-width:768px){.card{top:128px;border-radius:60px;padding:32px;gap:24px}}
