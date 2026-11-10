@@ -703,5 +703,93 @@ function loop(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTi
 mag.classList.add('ready'); loop();
 </script>
 
+<!-- ===== Estilo inspirado en Napster — pegar justo antes de </body> ===== -->
+<style id="napster-skin">
+:root{
+  --nx-bg:#0C0C0C; --nx-text:#D7E2EA; --nx-lime:#C6FF3D;
+  --nx-mag:#B600A8; --nx-vio:#7621B0;
+  --nx-grad:linear-gradient(123deg,#18011F 7%,#B600A8 37%,#7621B0 72%);
+  --nx-line:rgba(255,255,255,.10);
+}
+
+/* 1) Barra de anuncio arriba */
+.nx-bar{position:fixed;top:0;left:0;right:0;z-index:60;height:36px;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(90deg,#120617 0%,#2a0d33 50%,#120617 100%);border-bottom:1px solid var(--nx-line);
+  font:500 13px/1 'Kanit',system-ui,sans-serif;color:var(--nx-text);letter-spacing:.2px}
+.nx-bar:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--nx-mag);box-shadow:0 0 10px var(--nx-mag)}
+.nx-bar span{color:var(--nx-mag);transition:transform .25s}
+.nx-bar:hover span{transform:translateX(4px)}
+
+/* 2) Navegación fija con fondo difuminado */
+.nav{position:fixed!important;top:36px;left:0;right:0;z-index:55;
+  background:rgba(12,12,12,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--nx-line)}
+.nx-logo{font:800 20px/1 'Plus Jakarta Sans','Kanit',sans-serif;letter-spacing:-.5px;color:#fff;white-space:nowrap}
+.nx-logo b{color:var(--nx-lime);font-weight:800}
+@media (min-width:900px){
+  .nav{display:flex!important;align-items:center;gap:12px;padding:12px 24px!important;height:auto}
+  .nav .nx-logo{margin-right:auto}
+  .nav a:not(.nx-logo){padding:12px 18px;border-radius:10px;font-size:14px!important;font-weight:600;letter-spacing:.3px;
+    transition:background .2s,color .2s}
+  .nav a:not(.nx-logo):hover{background:#17131a;color:#fff}
+  .nav a[href="#contacto"]{background:var(--nx-grad);color:#fff;box-shadow:0 0 18px rgba(182,0,168,.35)}
+}
+@media (max-width:899px){ .nx-logo{display:none} }
+.hero{padding-top:110px}
+section[id]{scroll-margin-top:100px}
+
+/* 3) Fondos con resplandor violeta entre secciones */
+.hero,.about,.show,.faq,.projects,.contact{position:relative}
+.hero{background:radial-gradient(900px 520px at 70% 35%,rgba(118,33,176,.28),transparent 70%),
+                 radial-gradient(700px 400px at 15% 80%,rgba(182,0,168,.14),transparent 70%)}
+.about,.faq,.contact{background:radial-gradient(1000px 500px at 50% 0%,rgba(118,33,176,.16),transparent 70%)}
+.projects{background:linear-gradient(180deg,#0C0C0C 0%,#140a19 50%,#0C0C0C 100%)}
+
+/* 4) Títulos de sección estilo Napster: frase, ajustados, sin mayúsculas */
+h2.big{text-transform:none!important;font-family:'Plus Jakarta Sans','Kanit',sans-serif!important;font-weight:800!important;
+  font-size:clamp(44px,6.4vw,88px)!important;letter-spacing:-.04em!important;line-height:1!important}
+h2.big:before{content:"";display:block;width:44px;height:3px;margin:0 auto 22px;border-radius:3px;background:var(--nx-grad)}
+.sh2{letter-spacing:-.035em!important}
+
+/* 5) Botones: rectángulo suave, brillo, sin mayúsculas */
+.cbtn,.ghost,.p-btn,.dbtn{border-radius:10px!important;text-transform:none!important;letter-spacing:.1px!important;font-weight:600!important;
+  transition:transform .2s,box-shadow .25s,background .25s}
+.cbtn{box-shadow:1px 2px 10px rgba(0,0,0,.25),0 0 24px rgba(182,0,168,.35)}
+.cbtn:hover{transform:translateY(-2px);box-shadow:0 0 34px rgba(182,0,168,.6)}
+.ghost{border-color:rgba(182,0,168,.9)!important;background:rgba(182,0,168,.04)}
+.ghost:hover{background:rgba(182,0,168,.16)}
+.p-btn:hover{box-shadow:0 0 26px rgba(198,255,61,.45);transform:translateY(-2px)}
+
+/* 6) Tarjetas: esquinas más chicas, borde fino, brillo al pasar */
+.card{border-radius:22px!important;border:1px solid var(--nx-line)!important;
+  background:linear-gradient(180deg,#141018 0%,#0C0C0C 100%)!important;transition:border-color .3s,box-shadow .3s}
+.card:hover{border-color:rgba(182,0,168,.55)!important;box-shadow:0 0 40px rgba(182,0,168,.18)}
+.cal{border-radius:20px!important;border:1px solid var(--nx-line)!important;background:rgba(255,255,255,.02)!important}
+.qlist details{border-radius:14px!important;transition:border-color .25s,background .25s}
+.qlist details:hover,.qlist details[open]{border-color:rgba(182,0,168,.55)!important;background:rgba(182,0,168,.05)!important}
+.services{border-radius:28px 28px 0 0!important}
+.promo{border-radius:20px!important}
+
+/* 7) Botón flotante de WhatsApp con brillo */
+.wa-float{box-shadow:0 0 0 4px rgba(37,211,102,.15),0 0 26px rgba(37,211,102,.45)!important}
+</style>
+<script>
+(function(){
+  /* Barra de anuncio: reutiliza textos que ya están en la página */
+  if(!document.querySelector('.nx-bar')){
+    var bar=document.createElement('a');bar.className='nx-bar';bar.href='#servicios';
+    bar.innerHTML='Promo de lanzamiento · Tu web lista en 72 horas <span>→</span>';
+    document.body.prepend(bar);
+  }
+  /* Logo a la izquierda del menú */
+  var nav=document.querySelector('.nav');
+  if(nav&&!nav.querySelector('.nx-logo')){
+    var logo=document.createElement('a');logo.className='nx-logo';logo.href='#top';
+    logo.innerHTML='Roman <b>Web</b>';nav.prepend(logo);
+  }
+})();
+</script>
+<!-- ===== fin estilo Napster ===== -->
+
 </body>
 </html>
