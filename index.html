@@ -305,6 +305,154 @@ main{overflow-x:clip;background:#0C0C0C}
 footer{padding:40px max(20px,env(safe-area-inset-right,0px)) 48px max(20px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-weight:300;font-size:14px;opacity:.7;border-top:1px solid rgba(215,226,234,.15);margin:0 20px}
 @media (prefers-reduced-motion:reduce){.fade{transition:none;opacity:1;transform:none}.row{transform:none!important}}
 </style>
+<style id="acc-css">
+/* ===== Portfolio en acordeón ===== */
+.acc{max-width:1200px;margin:0 auto;display:flex;gap:12px;height:520px}
+.ac{position:relative;flex:1 1 0;min-width:0;border-radius:22px;overflow:hidden;cursor:pointer;background:#16121b;border:1px solid var(--nx-line);transition:flex-grow .7s cubic-bezier(.6,.05,.25,1),background .4s,border-color .4s;outline:none}
+.ac.on{flex-grow:11;cursor:default;border-color:rgba(182,0,168,.55);box-shadow:0 0 40px rgba(182,0,168,.18)}
+.ac:focus-visible{outline:2px solid #C6FF3D;outline-offset:3px}
+.ac-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;opacity:0;transform:scale(1.04);transition:opacity .6s .15s,transform 1.2s}
+.ac.on .ac-bg{opacity:1;transform:none}
+.ac-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,4,12,.92) 0%,rgba(8,4,12,.7) 38%,rgba(8,4,12,.1) 75%),linear-gradient(0deg,rgba(8,4,12,.85),transparent 45%);opacity:0;transition:opacity .5s}
+.ac.on .ac-shade{opacity:1}
+.ac-n{position:absolute;left:18px;top:14px;font:800 clamp(28px,3vw,44px)/1 'Plus Jakarta Sans','Kanit',sans-serif;letter-spacing:-.04em;color:#6c6475;transition:color .4s;z-index:2}
+.ac.on .ac-n{color:#C6FF3D}
+.ac-v{position:absolute;left:50%;bottom:22px;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;white-space:nowrap;font:600 15px/1 'Kanit',sans-serif;color:#AEB8C2;letter-spacing:.02em;transition:opacity .3s;z-index:2}
+.ac.on .ac-v{opacity:0}
+.ac-body{position:absolute;left:28px;bottom:28px;right:40%;z-index:2;opacity:0;transform:translateY(14px);transition:opacity .4s,transform .5s;pointer-events:none}
+.ac.on .ac-body{opacity:1;transform:none;transition-delay:.35s;pointer-events:auto}
+.ac-body small{display:block;font:500 13px/1.3 'Kanit',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#C6FF3D;margin-bottom:8px}
+.ac-body h3{font:800 clamp(30px,3.6vw,52px)/1 'Plus Jakarta Sans','Kanit',sans-serif;letter-spacing:-.04em;color:#fff;margin-bottom:20px;white-space:nowrap}
+.ac-go{display:inline-flex;gap:8px;align-items:center;padding:12px 20px;border-radius:999px;background:var(--nx-grad);color:#fff!important;font:600 15px/1 'Kanit',sans-serif;box-shadow:0 0 18px rgba(182,0,168,.35)}
+.ac-ph{position:absolute;right:28px;bottom:-30px;width:clamp(120px,15%,190px);border-radius:22px;border:4px solid #0C0C0C;box-shadow:0 30px 50px rgba(0,0,0,.55);opacity:0;transform:translateY(40px) rotate(4deg);transition:opacity .5s,transform .7s;z-index:2}
+.ac.on .ac-ph{opacity:1;transform:rotate(4deg);transition-delay:.4s}
+.acc-hint{text-align:center;margin-top:18px;font-weight:300;font-size:14px;opacity:.6}
+@media (max-width:899px){
+ .acc{flex-direction:column;height:auto;gap:10px}
+ .ac{flex:none;height:64px;transition:height .6s cubic-bezier(.6,.05,.25,1),background .4s}
+ .ac.on{height:min(470px,118vw)}
+ .ac-n{top:16px;left:16px;font-size:30px}
+ .ac-v{writing-mode:horizontal-tb;transform:none;left:72px;bottom:auto;top:23px;font-size:16px}
+ .ac-bg{object-position:top center}
+ .ac-shade{background:linear-gradient(0deg,rgba(8,4,12,.95) 0%,rgba(8,4,12,.6) 45%,rgba(8,4,12,.05) 80%)}
+ .ac-body{left:18px;right:18px;bottom:18px}
+ .ac-body h3{font-size:32px;white-space:normal;margin-bottom:14px}
+ .ac-ph{display:none}
+}
+@media (prefers-reduced-motion:reduce){.ac,.ac-bg,.ac-body,.ac-ph,.ac-shade{transition:none!important}}
+</style>
+<style id="light-theme">html,html[data-theme=light] body{background:#F7F4FB!important}
+html[data-theme=light] body{color:#2b2435!important}
+html[data-theme=light] main{background:#F7F4FB!important}
+html[data-theme=light] .hero-heading{background:linear-gradient(180deg,#3a1d5c 0%,#9b4fd6 100%)!important}
+html[data-theme=light] .cbtn{background:linear-gradient(123deg,#f1e3fb 7%,#B600A8 37%,#7621B0 72%,#BE4C00 100%)!important}
+html[data-theme=light] .ghost{border:2px solid #e2d6f0!important;color:#2b2435!important}
+html[data-theme=light] .ghost:hover{background:rgba(80,30,130,.1)!important}
+html[data-theme=light] .nav a{color:#2b2435!important}
+html[data-theme=light] .hero-bottom p{color:#2b2435!important}
+html[data-theme=light] .row img{background:#ffffff!important}
+html[data-theme=light] .atext{color:#2b2435!important}
+html[data-theme=light] .sitem{border-top:1px solid rgba(247,244,251,.15)!important}
+html[data-theme=light] .sitem:last-child{border-bottom:1px solid rgba(247,244,251,.15)!important}
+html[data-theme=light] .pts li{border:1px solid rgba(247,244,251,.18)!important}
+html[data-theme=light] .promo{background:#F7F4FB!important}
+html[data-theme=light] .p-left{color:#8a2be2!important}
+html[data-theme=light] .promo h3 em{color:#8a2be2!important}
+html[data-theme=light] .promo p{color:#2b2435!important}
+html[data-theme=light] .g-it{border:1.5px solid #F7F4FB!important}
+html[data-theme=light] .g-it:first-child{background:#F7F4FB!important;color:#1d1526!important}
+html[data-theme=light] .g-it:first-child b{color:#8a2be2!important}
+html[data-theme=light] .qlist details{border:1px solid rgba(80,30,130,.14)!important;background:rgba(80,30,130,.02)!important}
+html[data-theme=light] .qlist summary::after{color:#8a2be2!important}
+html[data-theme=light] .qlist details p{color:#2b2435!important}
+html[data-theme=light] .lime{color:#8a2be2!important;-webkit-text-fill-color:#8a2be2!important}
+html[data-theme=light] .serif{color:#3d1f66!important;-webkit-text-fill-color:#3d1f66!important}
+html[data-theme=light] .sh2{color:#1d1526!important}
+html[data-theme=light] .sp{color:#5d566a!important}
+html[data-theme=light] .stats b{color:#8a2be2!important}
+html[data-theme=light] .stats span{color:#6a6278!important}
+html[data-theme=light] .live{color:#8a2be2!important}
+html[data-theme=light] .flow{background:#ffffff!important;border:1px solid #e8dff3!important}
+html[data-theme=light] .flow-top{color:#6a6278!important}
+html[data-theme=light] .flow .edge{stroke:#ddd2ea!important}
+html[data-theme=light] .flow .nd rect.box{fill:#f4eff9!important;stroke:#e2d8ee!important}
+html[data-theme=light] .flow .nd.on rect.box{fill:#eef7da!important}
+html[data-theme=light] .flow .nd .dot{fill:#d9cde8!important}
+html[data-theme=light] .flow-log{border-top:1px solid #e8dff3!important;color:#6a6278!important}
+html[data-theme=light] .phone{border:8px solid #ffffff!important}
+html[data-theme=light] .ph-top{color:#1d1526!important}
+html[data-theme=light] .bub small{color:#6a6278!important}
+html[data-theme=light] .bub.typing{color:#6a6278!important}
+html[data-theme=light] .done-pill{background:#F7F4FB!important;color:#8a2be2!important}
+html[data-theme=light] .drop .dus{color:#2b2435!important}
+html[data-theme=light] .drop .dus b{color:#8a2be2!important}
+html[data-theme=light] .dcard{background:linear-gradient(180deg,rgba(80,30,130,.03),rgba(80,30,130,0))!important}
+html[data-theme=light] .dcard h3{color:#1d1526!important}
+html[data-theme=light] .dcard p{color:#5d566a!important}
+html[data-theme=light] .dcard li{color:#2b2435!important}
+html[data-theme=light] .hubt{color:#1d1526!important}
+html[data-theme=light] .fine{color:#6a6278!important}
+@media (max-width:767px){html[data-theme=light] .hub-mcore{background:radial-gradient(#e7d6f8,#f3ecfb)!important}}
+@media (max-width:767px){html[data-theme=light] .hub-mcore b{color:#1d1526!important}}
+@media (max-width:767px){html[data-theme=light] .hub-mcore span{color:#8a2be2!important}}
+@media (max-width:767px){html[data-theme=light] .hub-m li{color:#1d1526!important;background:#ffffff!important}}
+html[data-theme=light] .projects{background:linear-gradient(180deg,#F7F4FB 0%,#EFE6FA 55%,#F7F4FB 100%)!important}
+html[data-theme=light] .card{border:2px solid #e2d6f0!important;background:#F7F4FB!important}
+html[data-theme=light] .cimgs img{background:#ffffff!important}
+html[data-theme=light] .cimgs .i3{background:#ffffff!important}
+html[data-theme=light] .mcard{border:1.5px solid rgba(80,30,130,.35)!important}
+html[data-theme=light] .mcard:hover{border-color:#e2d6f0!important}
+html[data-theme=light] .mcard img{background:#ffffff!important}
+html[data-theme=light] .cal{border:2px solid #e2d6f0!important}
+html[data-theme=light] .chips button{border:1.5px solid rgba(80,30,130,.35)!important;color:#2b2435!important}
+html[data-theme=light] .chips button[aria-pressed="true"]{border-color:#e2d6f0!important}
+html[data-theme=light] .fgrid input,html[data-theme=light] .fgrid select{color:#2b2435!important;background:#ffffff!important;border:1.5px solid rgba(80,30,130,.25)!important}
+html[data-theme=light] footer{border-top:1px solid rgba(80,30,130,.15)!important}
+html[data-theme=light]{--nx-bg:#F7F4FB!important;--nx-text:#2b2435!important;--nx-line:rgba(80,30,130,.10)!important}
+html[data-theme=light] .nx-bar{background:linear-gradient(90deg,#f6eefc 0%,#efe0fa 50%,#f6eefc 100%)!important}
+html[data-theme=light] .nav{background:rgba(247,244,251,.72)!important}
+html[data-theme=light] .nx-logo{color:#1d1526!important}
+html[data-theme=light] .nx-mark{color:#1d1526!important}
+html[data-theme=light] .nx-w{color:#1d1526!important}
+html[data-theme=light] .nx-w em{color:#8a2be2!important}
+@media (min-width:900px){html[data-theme=light] .nav a:not(.nx-logo):hover{background:#f1e8fb!important;color:#1d1526!important}}
+html[data-theme=light] .projects{background:linear-gradient(180deg,#F7F4FB 0%,#EFE6FA 55%,#F7F4FB 100%)!important}
+html[data-theme=light] .card{background:linear-gradient(180deg,#ffffff 0%,#F7F4FB 100%)!important}
+html[data-theme=light] .cal{background:rgba(80,30,130,.02)!important}
+html[data-theme=light] .ac{background:#ffffff!important}
+html[data-theme=light] .ac-n{color:#9a8fb0!important}
+html[data-theme=light] .ac.on .ac-n{color:#8a2be2!important}
+html[data-theme=light] .ac-v{color:#5d566a!important}
+html[data-theme=light] .ac-body small{color:#8a2be2!important}
+html[data-theme=light] .ac-body h3{color:#1d1526!important}
+html[data-theme=light] .ac-ph{border:4px solid #F7F4FB!important}
+html[data-theme=light],html[data-theme=light] body,html[data-theme=light] main{background:#F7F4FB!important;color:#2b2435}
+html[data-theme=light] .hero-heading{background:linear-gradient(180deg,#3a1d5c 0%,#9b4fd6 100%)!important;-webkit-background-clip:text!important;background-clip:text!important}
+html[data-theme=light] .lime{color:#8a2be2!important;-webkit-text-fill-color:#8a2be2!important}
+html[data-theme=light] .serif{color:#7621B0!important;-webkit-text-fill-color:#7621B0!important}
+html[data-theme=light] .nx-w,html[data-theme=light] .nx-mark{color:#1d1526!important}
+html[data-theme=light] .nx-mark{background:#fff!important;border-color:#e2d6f0!important}
+html[data-theme=light] .nx-mark i{background:#8a2be2!important}
+html[data-theme=light] .nx-w em{color:#8a2be2!important}
+html[data-theme=light] .ac{background:#fff!important;border-color:#e6dcf2!important}
+html[data-theme=light] .ac-n{color:#c6bcd4!important}
+html[data-theme=light] .ac.on .ac-n{color:#C6FF3D!important}
+html[data-theme=light] .ac-v{color:#5d566a!important}
+html[data-theme=light] .ac-body h3{color:#fff!important}
+html[data-theme=light] .ac-body small{color:#C6FF3D!important}
+html[data-theme=light] .ac-ph{border-color:#fff!important}
+html[data-theme=light] .hub text,html[data-theme=light] .hub tspan{fill:#1d1526}
+html[data-theme=light] .hub circle[fill="#141418"]{fill:#ffffff}
+html[data-theme=light] img{filter:none}
+.themebtn{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;border-radius:999px;border:1px solid var(--nx-line);background:rgba(20,16,24,.85);backdrop-filter:blur(10px);color:#fff;font:600 13.5px/1 'Kanit',sans-serif;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.35);transition:background .3s,color .3s}
+.themebtn i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#C6FF3D;color:#111;font-style:normal;font-size:14px}
+html[data-theme=light] .themebtn{background:rgba(255,255,255,.92)!important;color:#2b2435!important;border-color:#e2d6f0!important;box-shadow:0 10px 26px rgba(118,33,176,.18)}
+html[data-theme=light] .themebtn i{background:#7621B0;color:#fff}
+html.theme-anim,html.theme-anim *{transition:background-color .45s,color .45s,border-color .45s!important}
+@media (min-width:900px){html[data-theme=light] .nav a[href="#contacto"]{color:#fff!important}}
+@media (max-width:899px){html[data-theme=light] .nav a[href="#contacto"]{color:#8a2be2!important}.themebtn{padding:6px!important;left:12px!important;bottom:14px!important}.themebtn span{display:none}}
+</style>
+<script>try{if(localStorage.getItem("rw-theme")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
 </head>
 <body>
 <main>
@@ -437,29 +585,58 @@ footer{padding:40px max(20px,env(safe-area-inset-right,0px)) 48px max(20px,env(s
  </section>
  <section class="projects" id="proyectos">
    <h2 class="big hero-heading fade" style="--fy:40px">Proyectos</h2>
-   <div class="stack" id="stack" style="--st:96px"><div class="slot"><div class="card" data-i="0" style="top:calc(var(--st) + 0px)">
-  <div class="ctop"><span class="n hero-heading">01</span><div class="meta"><small>Estudio de tatuajes</small><h3>Maxi Denhoff Tattoo</h3></div><a class="ghost" href="https://maxi-tattoo.vercel.app" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="maxi_a" alt="Maxi Denhoff Tattoo, portada"><img class="i2" data-img="maxi_b" alt="Maxi Denhoff Tattoo, sección"></div><div class="col"><img class="i3" data-img="maxi_m" alt="Maxi Denhoff Tattoo en el celular"></div></div>
-</div></div><div class="slot"><div class="card" data-i="1" style="top:calc(var(--st) + 28px)">
-  <div class="ctop"><span class="n hero-heading">02</span><div class="meta"><small>Carpintería con catálogo y pedidos</small><h3>El Rústico</h3></div><a class="ghost" href="https://el-rustico-five.vercel.app" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="rustico_a" alt="El Rústico, portada"><img class="i2" data-img="rustico_b" alt="El Rústico, sección"></div><div class="col"><img class="i3" data-img="rustico_m" alt="El Rústico en el celular"></div></div>
-</div></div><div class="slot"><div class="card" data-i="2" style="top:calc(var(--st) + 56px)">
-  <div class="ctop"><span class="n hero-heading">03</span><div class="meta"><small>Tienda de joyería para piercing</small><h3>Rosario Piercing</h3></div><a class="ghost" href="https://rosario-piercing.vercel.app" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="piercing_a" alt="Rosario Piercing, portada"><img class="i2" data-img="piercing_b" alt="Rosario Piercing, sección"></div><div class="col"><img class="i3" data-img="piercing_m" alt="Rosario Piercing en el celular"></div></div>
-</div></div><div class="slot"><div class="card" data-i="3" style="top:calc(var(--st) + 84px)">
-  <div class="ctop"><span class="n hero-heading">04</span><div class="meta"><small>Tienda de ropa urbana</small><h3>Black Inc</h3></div><a class="ghost" href="/black-inc.html" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="black_a" alt="Black Inc, portada"><img class="i2" data-img="black_b" alt="Black Inc, sección"></div><div class="col"><img class="i3" data-img="black_m" alt="Black Inc en el celular"></div></div>
-</div></div><div class="slot"><div class="card" data-i="4" style="top:calc(var(--st) + 112px)">
-  <div class="ctop"><span class="n hero-heading">05</span><div class="meta"><small>Tienda de tecnología</small><h3>Pulso Tech</h3></div><a class="ghost" href="/tecno.html" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="tech_a" alt="Pulso Tech, portada"><img class="i2" data-img="tech_b" alt="Pulso Tech, sección"></div><div class="col"><img class="i3" data-img="tech_m" alt="Pulso Tech en el celular"></div></div>
-</div></div><div class="slot"><div class="card" data-i="5" style="top:calc(var(--st) + 140px)">
-  <div class="ctop"><span class="n hero-heading">06</span><div class="meta"><small>Pastelería con pedidos online</small><h3>MOR Pastelería</h3></div><a class="ghost" href="https://mor-pasteleria.vercel.app" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="mor_a" alt="MOR Pastelería, portada"><img class="i2" data-img="mor_b" alt="MOR Pastelería, sección"></div><div class="col"><img class="i3" data-img="mor_m" alt="MOR Pastelería en el celular"></div></div>
-</div></div><div class="slot"><div class="card" data-i="6" style="top:calc(var(--st) + 168px)">
-  <div class="ctop"><span class="n hero-heading">07</span><div class="meta"><small>Fábrica de máquinas arcade</small><h3>Arcade Norte</h3></div><a class="ghost" href="https://arcade-norte.vercel.app" target="_blank" rel="noopener">Ver proyecto</a></div>
-  <div class="cimgs"><div class="col"><img class="i1" data-img="arcade_a" alt="Arcade Norte, portada"><img class="i2" data-img="arcade_b" alt="Arcade Norte, sección"></div><div class="col"><img class="i3" data-img="arcade_m" alt="Arcade Norte en el celular"></div></div>
-</div></div></div>
- </section>
+   <div class="acc" id="stack"><article class="ac on" data-k="0" tabindex="0" aria-label="Maxi Denhoff Tattoo">
+  <img class="ac-bg" data-img="maxi_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">01</span>
+  <span class="ac-v">Maxi Denhoff Tattoo</span>
+  <div class="ac-body"><small>Estudio de tatuajes</small><h3>Maxi Denhoff Tattoo</h3><a class="ac-go" href="https://maxi-tattoo.vercel.app" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="maxi_m" alt="Maxi Denhoff Tattoo en el celular">
+</article><article class="ac" data-k="1" tabindex="0" aria-label="El Rústico">
+  <img class="ac-bg" data-img="rustico_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">02</span>
+  <span class="ac-v">El Rústico</span>
+  <div class="ac-body"><small>Carpintería con catálogo y pedidos</small><h3>El Rústico</h3><a class="ac-go" href="https://el-rustico-five.vercel.app" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="rustico_m" alt="El Rústico en el celular">
+</article><article class="ac" data-k="2" tabindex="0" aria-label="Rosario Piercing">
+  <img class="ac-bg" data-img="piercing_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">03</span>
+  <span class="ac-v">Rosario Piercing</span>
+  <div class="ac-body"><small>Tienda de joyería para piercing</small><h3>Rosario Piercing</h3><a class="ac-go" href="https://rosario-piercing.vercel.app" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="piercing_m" alt="Rosario Piercing en el celular">
+</article><article class="ac" data-k="3" tabindex="0" aria-label="Black Inc">
+  <img class="ac-bg" data-img="black_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">04</span>
+  <span class="ac-v">Black Inc</span>
+  <div class="ac-body"><small>Tienda de ropa urbana</small><h3>Black Inc</h3><a class="ac-go" href="/black-inc.html" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="black_m" alt="Black Inc en el celular">
+</article><article class="ac" data-k="4" tabindex="0" aria-label="Pulso Tech">
+  <img class="ac-bg" data-img="tech_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">05</span>
+  <span class="ac-v">Pulso Tech</span>
+  <div class="ac-body"><small>Tienda de tecnología</small><h3>Pulso Tech</h3><a class="ac-go" href="/tecno.html" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="tech_m" alt="Pulso Tech en el celular">
+</article><article class="ac" data-k="5" tabindex="0" aria-label="MOR Pastelería">
+  <img class="ac-bg" data-img="mor_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">06</span>
+  <span class="ac-v">MOR Pastelería</span>
+  <div class="ac-body"><small>Pastelería con pedidos online</small><h3>MOR Pastelería</h3><a class="ac-go" href="https://mor-pasteleria.vercel.app" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="mor_m" alt="MOR Pastelería en el celular">
+</article><article class="ac" data-k="6" tabindex="0" aria-label="Arcade Norte">
+  <img class="ac-bg" data-img="arcade_a" alt="">
+  <div class="ac-shade"></div>
+  <span class="ac-n">07</span>
+  <span class="ac-v">Arcade Norte</span>
+  <div class="ac-body"><small>Fábrica de máquinas arcade</small><h3>Arcade Norte</h3><a class="ac-go" href="https://arcade-norte.vercel.app" target="_blank" rel="noopener">Ver proyecto <span aria-hidden="true">↗</span></a></div>
+  <img class="ac-ph" data-img="arcade_m" alt="Arcade Norte en el celular">
+</article></div>
+   <p class="acc-hint fade">Pasá el mouse o tocá cada número para ver el proyecto.</p>
+</section>
  <section class="contact" id="contacto">
    <h2 class="big hero-heading fade" style="--fy:40px">Contacto</h2>
    <p class="ctext fade" style="--fdel:.1s">Elegí un día y una hora para una charla de 15 minutos. Me contás de tu negocio y te digo qué te conviene, sin compromiso.</p>
@@ -710,6 +887,34 @@ function loop(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTi
 mag.classList.add('ready'); loop();
 </script>
 
+<script>
+(function(){
+ var acc=document.getElementById('stack'); if(!acc||!acc.classList.contains('acc'))return;
+ var ps=[].slice.call(acc.querySelectorAll('.ac')),cur=0,auto=true,timer;
+ function go(i){cur=i;ps.forEach(function(p,j){p.classList.toggle('on',j===i);p.setAttribute('aria-expanded',j===i)})}
+ function stop(){auto=false;clearInterval(timer)}
+ ps.forEach(function(p,i){
+  p.addEventListener('mouseenter',function(){if(matchMedia('(hover:hover)').matches){stop();go(i)}});
+  p.addEventListener('click',function(e){if(!p.classList.contains('on')){e.preventDefault();stop();go(i)}});
+  p.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();stop();go(i)}if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();stop();go((i+1)%ps.length);ps[cur].focus()}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();stop();go((i-1+ps.length)%ps.length);ps[cur].focus()}});
+ });
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){clearInterval(timer);if(x.isIntersecting&&auto)timer=setInterval(function(){if(auto)go((cur+1)%ps.length)},3800)})},{threshold:.4});
+  io.observe(acc);
+ }
+ go(0);
+})();
+</script>
+
+<button class="themebtn" id="themebtn" type="button" aria-label="Cambiar a modo claro"><i aria-hidden="true">☀</i><span>Modo claro</span></button>
+<script>
+(function(){
+ var b=document.getElementById('themebtn'),h=document.documentElement;
+ function paint(){var l=h.getAttribute('data-theme')==='light';b.querySelector('i').textContent=l?'☾':'☀';b.querySelector('span').textContent=l?'Modo oscuro':'Modo claro';b.setAttribute('aria-label',l?'Cambiar a modo oscuro':'Cambiar a modo claro');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',l?'#F7F4FB':'#0C0C0C')}
+ b.addEventListener('click',function(){h.classList.add('theme-anim');var l=h.getAttribute('data-theme')!=='light';if(l)h.setAttribute('data-theme','light');else h.removeAttribute('data-theme');try{localStorage.setItem('rw-theme',l?'light':'dark')}catch(e){}paint();setTimeout(function(){h.classList.remove('theme-anim')},600)});
+ paint();
+})();
+</script>
 <!-- ===== Estilo inspirado en Napster — pegar justo antes de </body> ===== -->
 <style id="napster-skin">
 :root{
@@ -746,7 +951,7 @@ mag.classList.add('ready'); loop();
   .nav a:not(.nx-logo):hover{background:#17131a;color:#fff}
   .nav a[href="#contacto"]{background:var(--nx-grad);color:#fff;box-shadow:0 0 18px rgba(182,0,168,.35)}
 }
-@media (max-width:899px){ .nx-logo{display:none} }
+@media (max-width:899px){ .nx-logo{display:none!important} }
 .hero{padding-top:110px}
 section[id]{scroll-margin-top:100px}
 
